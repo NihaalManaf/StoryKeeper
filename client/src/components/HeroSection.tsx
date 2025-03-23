@@ -15,9 +15,10 @@ export default function HeroSection() {
               Children's Books
             </h2>
             <p className="text-lg mb-8 font-['Open_Sans']">
-              Preserve your family's precious moments as beautifully illustrated
-              children's books that will be treasured for generations.
-              Personalize characters with your family photos!
+              Preserve your family's precious memories as beautifully
+              illustrated children's books that will be treasured for
+              generations. Personalize characters your characers with images
+              too!
             </p>
             <div className="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
               <a href="#create-story">
