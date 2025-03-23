@@ -110,101 +110,109 @@ export default function StoryPreview() {
           </div>
         </div>
         
-        <div className="relative bg-white rounded-[12px] shadow-xl max-w-3xl mx-auto overflow-hidden">
-          {/* Book viewer */}
-          <div className="aspect-[2/1] bg-gray-100 relative">
-            <div className="absolute inset-0 flex items-center justify-center">
-              <svg className="w-full h-full" viewBox="0 0 800 400" xmlns="http://www.w3.org/2000/svg">
-                <rect width="100%" height="100%" fill="#ffffff" />
-                <g transform="translate(400, 200)">
-                  <rect x="-320" y="-180" width="640" height="360" rx="8" fill="#f8f9fa" stroke="#e9ecef" />
-                  <text 
-                    x="0" 
-                    y="0" 
-                    dominantBaseline="middle" 
-                    textAnchor="middle" 
-                    fontFamily="Quicksand" 
-                    fontSize="24" 
-                    fill="#2D3436"
+        {/* Two-column layout for book preview and chat */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mx-auto">
+          {/* Book preview column - takes 2/3 of available space on large screens */}
+          <div className="lg:col-span-2">
+            <div className="relative bg-white rounded-[12px] shadow-xl overflow-hidden">
+              {/* Book viewer */}
+              <div className="aspect-[2/1] bg-gray-100 relative">
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <svg className="w-full h-full" viewBox="0 0 800 400" xmlns="http://www.w3.org/2000/svg">
+                    <rect width="100%" height="100%" fill="#ffffff" />
+                    <g transform="translate(400, 200)">
+                      <rect x="-320" y="-180" width="640" height="360" rx="8" fill="#f8f9fa" stroke="#e9ecef" />
+                      <text 
+                        x="0" 
+                        y="0" 
+                        dominantBaseline="middle" 
+                        textAnchor="middle" 
+                        fontFamily="Quicksand" 
+                        fontSize="24" 
+                        fill="#2D3436"
+                      >
+                        {currentPage === 0 ? story.title : `Page ${currentPage}`}
+                      </text>
+                      <text 
+                        x="0" 
+                        y="40" 
+                        dominantBaseline="middle" 
+                        textAnchor="middle" 
+                        fontFamily="Open Sans" 
+                        fontSize="16" 
+                        fill="#495057"
+                      >
+                        {previewPages[currentPage].text}
+                      </text>
+                    </g>
+                  </svg>
+                </div>
+              </div>
+              
+              {/* Navigation controls */}
+              <div className="absolute top-1/2 left-4 transform -translate-y-1/2">
+                <Button 
+                  variant="outline" 
+                  size="icon" 
+                  className="rounded-full bg-white shadow-md"
+                  onClick={handlePrevPage}
+                  disabled={currentPage === 0}
+                >
+                  <ChevronLeft className="h-5 w-5" />
+                </Button>
+              </div>
+              <div className="absolute top-1/2 right-4 transform -translate-y-1/2">
+                <Button 
+                  variant="outline" 
+                  size="icon" 
+                  className="rounded-full bg-white shadow-md"
+                  onClick={handleNextPage}
+                  disabled={currentPage === previewPages.length - 1}
+                >
+                  <ChevronRight className="h-5 w-5" />
+                </Button>
+              </div>
+              
+              {/* Page indicator */}
+              <div className="absolute bottom-4 left-0 right-0 flex justify-center gap-2">
+                {previewPages.map((_, index) => (
+                  <button 
+                    key={index}
+                    className={`w-2.5 h-2.5 rounded-full ${index === currentPage ? 'bg-[#FF6B6B]' : 'bg-gray-300'}`}
+                    onClick={() => setCurrentPage(index)}
+                  />
+                ))}
+              </div>
+            </div>
+            
+            <div className="mt-8 text-center">
+              {story.purchased ? (
+                <div className="p-4 bg-green-100 text-green-800 rounded-[12px] inline-flex items-center gap-2 mb-4">
+                  <Book className="h-5 w-5" />
+                  <span>You've purchased this book! Your complete story is available.</span>
+                </div>
+              ) : (
+                <>
+                  <p className="text-gray-600 mb-6 max-w-2xl mx-auto">
+                    This is a preview of your first 2 pages. Purchase your complete book to see the full story beautifully illustrated with your characters!
+                  </p>
+                  <Button 
+                    onClick={handlePurchase}
+                    className="bg-[#FF6B6B] text-white font-bold py-4 px-8 rounded-[12px] shadow-lg hover:shadow-xl transition duration-300 h-auto"
                   >
-                    {currentPage === 0 ? story.title : `Page ${currentPage}`}
-                  </text>
-                  <text 
-                    x="0" 
-                    y="40" 
-                    dominantBaseline="middle" 
-                    textAnchor="middle" 
-                    fontFamily="Open Sans" 
-                    fontSize="16" 
-                    fill="#495057"
-                  >
-                    {previewPages[currentPage].text}
-                  </text>
-                </g>
-              </svg>
+                    Purchase Complete Book
+                  </Button>
+                </>
+              )}
             </div>
           </div>
-          
-          {/* Navigation controls */}
-          <div className="absolute top-1/2 left-4 transform -translate-y-1/2">
-            <Button 
-              variant="outline" 
-              size="icon" 
-              className="rounded-full bg-white shadow-md"
-              onClick={handlePrevPage}
-              disabled={currentPage === 0}
-            >
-              <ChevronLeft className="h-5 w-5" />
-            </Button>
+
+          {/* Chat panel column - takes 1/3 of available space on large screens */}
+          <div className="lg:col-span-1 h-[600px]">
+            {story && <ChatPanel storyId={story.id} />}
           </div>
-          <div className="absolute top-1/2 right-4 transform -translate-y-1/2">
-            <Button 
-              variant="outline" 
-              size="icon" 
-              className="rounded-full bg-white shadow-md"
-              onClick={handleNextPage}
-              disabled={currentPage === previewPages.length - 1}
-            >
-              <ChevronRight className="h-5 w-5" />
-            </Button>
-          </div>
-          
-          {/* Page indicator */}
-          <div className="absolute bottom-4 left-0 right-0 flex justify-center gap-2">
-            {previewPages.map((_, index) => (
-              <button 
-                key={index}
-                className={`w-2.5 h-2.5 rounded-full ${index === currentPage ? 'bg-[#FF6B6B]' : 'bg-gray-300'}`}
-                onClick={() => setCurrentPage(index)}
-              />
-            ))}
-          </div>
-        </div>
-        
-        <div className="mt-12 text-center">
-          {story.purchased ? (
-            <div className="p-4 bg-green-100 text-green-800 rounded-[12px] inline-flex items-center gap-2 mb-4">
-              <Book className="h-5 w-5" />
-              <span>You've purchased this book! Your complete story is available.</span>
-            </div>
-          ) : (
-            <>
-              <p className="text-gray-600 mb-6 max-w-2xl mx-auto">
-                This is a preview of your first 2 pages. Purchase your complete book to see the full story beautifully illustrated with your characters!
-              </p>
-              <Button 
-                onClick={handlePurchase}
-                className="bg-[#FF6B6B] text-white font-bold py-4 px-8 rounded-[12px] shadow-lg hover:shadow-xl transition duration-300 h-auto"
-              >
-                Purchase Complete Book
-              </Button>
-            </>
-          )}
         </div>
       </div>
-      
-      {/* Add ChatPanel for story feedback */}
-      {story && <ChatPanel storyId={story.id} />}
     </div>
   );
 }

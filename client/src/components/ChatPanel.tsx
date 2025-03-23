@@ -22,7 +22,6 @@ interface ChatPanelProps {
 }
 
 export default function ChatPanel({ storyId }: ChatPanelProps) {
-  const [isOpen, setIsOpen] = useState(false);
   const [newMessage, setNewMessage] = useState('');
   const [isEditor, setIsEditor] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
@@ -37,8 +36,7 @@ export default function ChatPanel({ storyId }: ChatPanelProps) {
       if (!res.ok) throw new Error('Failed to fetch messages');
       return res.json();
     },
-    enabled: isOpen,
-    refetchInterval: isOpen ? 3000 : false // Poll for new messages when chat is open
+    refetchInterval: 3000 // Poll for new messages
   });
 
   // Send a message mutation
@@ -65,10 +63,10 @@ export default function ChatPanel({ storyId }: ChatPanelProps) {
 
   // Scroll to bottom when new messages arrive
   useEffect(() => {
-    if (isOpen && messagesEndRef.current) {
+    if (messagesEndRef.current) {
       messagesEndRef.current.scrollIntoView({ behavior: 'smooth' });
     }
-  }, [messages, isOpen]);
+  }, [messages]);
 
   const handleSendMessage = () => {
     if (newMessage.trim()) {
@@ -88,19 +86,8 @@ export default function ChatPanel({ storyId }: ChatPanelProps) {
     return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
   };
 
-  if (!isOpen) {
-    return (
-      <Button
-        onClick={() => setIsOpen(true)}
-        className="fixed bottom-6 right-6 rounded-full h-14 w-14 p-0 flex items-center justify-center bg-[#FF6B6B] hover:bg-[#ff5252] shadow-lg"
-      >
-        <MessageSquare className="h-6 w-6" />
-      </Button>
-    );
-  }
-
   return (
-    <div className="fixed bottom-6 right-6 w-80 md:w-96 h-[500px] bg-white rounded-lg shadow-xl flex flex-col overflow-hidden border border-gray-200 z-50">
+    <div className="h-full bg-white rounded-lg shadow-xl flex flex-col overflow-hidden border border-gray-200">
       {/* Chat header */}
       <div className="p-3 bg-[#FF6B6B] text-white flex justify-between items-center">
         <h3 className="font-bold">Story Feedback</h3>
@@ -114,14 +101,6 @@ export default function ChatPanel({ storyId }: ChatPanelProps) {
               className="rounded text-[#4ECDC4]"
             />
           </div>
-          <Button 
-            variant="ghost" 
-            size="icon" 
-            onClick={() => setIsOpen(false)}
-            className="h-8 w-8 p-0 text-white hover:bg-[#ff5252] hover:text-white"
-          >
-            <X className="h-4 w-4" />
-          </Button>
         </div>
       </div>
       
