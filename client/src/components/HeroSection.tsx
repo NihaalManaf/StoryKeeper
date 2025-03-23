@@ -11,7 +11,7 @@ export default function HeroSection() {
           <div className="lg:w-1/2 lg:pr-12 mb-10 lg:mb-0 z-10">
             <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight font-['Quicksand'] mb-6">
               Turn Your Family Stories Into
-              <span className="text-[#FF6B6B]"> Magical</span>
+              <span className="text-[#FF6B6B]"> Magical </span>
               Children's Books
             </h2>
             <p className="text-lg mb-8 font-['Open_Sans']">
