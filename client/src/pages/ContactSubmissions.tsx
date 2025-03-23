@@ -158,12 +158,12 @@ export default function ContactSubmissions() {
                         </TableCell>
                         <TableCell>
                           {submission.storyId ? (
-                            <a 
-                              href={`/story/${submission.storyId}`} 
+                            <Link 
+                              href={`/preview/${submission.storyId}`} 
                               className="text-blue-600 hover:underline"
                             >
                               {submission.storyId}
-                            </a>
+                            </Link>
                           ) : (
                             <span className="text-gray-500">None</span>
                           )}

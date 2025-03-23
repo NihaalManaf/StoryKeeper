@@ -72,7 +72,12 @@ export default function Footer() {
         {/* Bottom Footer */}
         <div className="pt-8 border-t border-gray-800 text-center text-gray-500 text-sm">
           <p className="mb-4">© {new Date().getFullYear()} StoryKeeper. All rights reserved.</p>
-          <p>Made with ❤️ for families everywhere</p>
+          <p className="mb-4">Made with ❤️ for families everywhere</p>
+          <p className="text-xs opacity-30 hover:opacity-70 transition-opacity">
+            <Link href="/admin/contact-submissions">
+              Admin Access
+            </Link>
+          </p>
         </div>
       </div>
     </footer>
