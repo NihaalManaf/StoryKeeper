@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { useLocation } from "wouter";
+import { useLocation, Link } from "wouter";
 import { useToast } from "@/hooks/use-toast";
 import { Button } from "@/components/ui/button";
 import {
@@ -159,7 +159,7 @@ export default function ContactSubmissions() {
                         <TableCell>
                           {submission.storyId ? (
                             <Link 
-                              href={`/preview/${submission.storyId}`} 
+                              to={`/preview/${submission.storyId}`} 
                               className="text-blue-600 hover:underline"
                             >
                               {submission.storyId}

@@ -74,7 +74,7 @@ export default function Footer() {
           <p className="mb-4">© {new Date().getFullYear()} StoryKeeper. All rights reserved.</p>
           <p className="mb-4">Made with ❤️ for families everywhere</p>
           <p className="text-xs opacity-30 hover:opacity-70 transition-opacity">
-            <Link href="/admin/contact-submissions">
+            <Link to="/admin/contact-submissions">
               Admin Access
             </Link>
           </p>
