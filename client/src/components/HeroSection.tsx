@@ -69,7 +69,7 @@ export default function HeroSection() {
               <span className="font-['Quicksand'] font-bold text-xl">FamilyPlus</span>
             </div>
             <div className="w-24 h-12 flex items-center justify-center grayscale opacity-60 hover:grayscale-0 hover:opacity-100 transition duration-300">
-              <span className="font-['Quicksand'] font-bold text-xl">StoryTime</span>
+              <span className="font-['Quicksand'] font-bold text-xl">StoryMag</span>
             </div>
           </div>
         </div>
