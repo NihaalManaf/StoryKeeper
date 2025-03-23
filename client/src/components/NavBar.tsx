@@ -30,6 +30,9 @@ export default function NavBar() {
             <a href="#faq" className="font-medium text-[#2D3436] hover:text-[#FF6B6B] transition duration-300">
               FAQ
             </a>
+            <Link href="/admin/contact-submissions" className="font-medium text-gray-500 hover:text-[#4ECDC4] transition duration-300 text-sm">
+              Admin
+            </Link>
             <a href="#create-story">
               <Button className="font-medium bg-[#FF6B6B] text-white px-5 py-2 rounded-[12px] hover:bg-opacity-90 transition duration-300">
                 Get Started
@@ -79,6 +82,15 @@ export default function NavBar() {
                       Get Started
                     </Button>
                   </a>
+                  <div className="pt-4 border-t border-gray-200">
+                    <Link 
+                      href="/admin/contact-submissions"
+                      className="font-medium text-gray-500 hover:text-[#4ECDC4] text-sm"
+                      onClick={() => setIsOpen(false)}
+                    >
+                      Admin - Contact Submissions
+                    </Link>
+                  </div>
                 </div>
               </SheetContent>
             </Sheet>

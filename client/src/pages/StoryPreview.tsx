@@ -232,6 +232,13 @@ export default function StoryPreview() {
         isOpen={contactModalOpen} 
         onClose={() => setContactModalOpen(false)}
         storyId={parseInt(id)}
+        onComplete={() => {
+          toast({
+            title: "Preview Generation Started",
+            description: "We're working on your full preview. We'll notify you when it's ready!",
+            variant: "default",
+          });
+        }}
       />
     </div>
   );

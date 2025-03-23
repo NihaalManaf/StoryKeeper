@@ -7,6 +7,7 @@ import Layout from "@/components/Layout";
 import Home from "@/pages/Home";
 import StoryPreview from "@/pages/StoryPreview";
 import Checkout from "@/pages/Checkout";
+import ContactSubmissions from "@/pages/ContactSubmissions";
 
 function Router() {
   return (
@@ -14,6 +15,7 @@ function Router() {
       <Route path="/" component={Home} />
       <Route path="/preview/:id" component={StoryPreview} />
       <Route path="/checkout/:id" component={Checkout} />
+      <Route path="/admin/contact-submissions" component={ContactSubmissions} />
       <Route component={NotFound} />
     </Switch>
   );
