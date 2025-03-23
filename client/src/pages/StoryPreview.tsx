@@ -202,6 +202,9 @@ export default function StoryPreview() {
           )}
         </div>
       </div>
+      
+      {/* Add ChatPanel for story feedback */}
+      {story && <ChatPanel storyId={story.id} />}
     </div>
   );
 }

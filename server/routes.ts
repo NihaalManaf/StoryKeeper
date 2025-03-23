@@ -43,7 +43,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         content: req.body.content,
         userId,
         characterPhotos: Array.isArray(req.files) && req.files.length > 0 
-          ? req.files.map(file => `data:${file.mimetype};base64,${file.buffer.toString('base64')}`)
+          ? [...req.files.map(file => `data:${file.mimetype};base64,${file.buffer.toString('base64')}`)]
           : null
       };
 

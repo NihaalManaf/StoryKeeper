@@ -68,7 +68,11 @@ export class MemStorage implements IStorage {
     const createdAt = new Date().toISOString();
     
     // Ensure characterPhotos is properly handled as string[] | null
-    const characterPhotos = insertStory.characterPhotos || null;
+    const characterPhotos = insertStory.characterPhotos 
+      ? Array.isArray(insertStory.characterPhotos) 
+        ? insertStory.characterPhotos 
+        : Array.from(insertStory.characterPhotos)
+      : null;
     
     const story: Story = { 
       ...insertStory, 
