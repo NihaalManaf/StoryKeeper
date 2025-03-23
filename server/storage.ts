@@ -58,8 +58,13 @@ export class MemStorage implements IStorage {
   async createStory(insertStory: InsertStory): Promise<Story> {
     const id = this.currentStoryId++;
     const createdAt = new Date().toISOString();
+    
+    // Ensure characterPhotos is properly handled as string[] | null
+    const characterPhotos = insertStory.characterPhotos || null;
+    
     const story: Story = { 
       ...insertStory, 
+      characterPhotos,
       id, 
       previewGenerated: false, 
       purchased: false, 

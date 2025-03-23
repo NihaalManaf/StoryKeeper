@@ -33,15 +33,27 @@ export async function registerRoutes(app: Express): Promise<Server> {
       // For this demo we'll use userId 1 as we don't have authentication
       const userId = 1;
       
+      console.log("Request body:", req.body);
+      console.log("Files:", req.files);
+      
       // Extract story data and validate
       const storyData = {
         title: req.body.title,
         category: req.body.category,
         content: req.body.content,
         userId,
-        characterPhotos: (req.files as Express.Multer.File[])?.map(file => 
-          `data:${file.mimetype};base64,${file.buffer.toString('base64')}`)
+        characterPhotos: Array.isArray(req.files) && req.files.length > 0 
+          ? req.files.map(file => `data:${file.mimetype};base64,${file.buffer.toString('base64')}`)
+          : null
       };
+
+      console.log("Story data prepared:", {
+        title: storyData.title,
+        category: storyData.category,
+        content: storyData.content.substring(0, 50) + "...",
+        userId: storyData.userId,
+        hasPhotos: storyData.characterPhotos !== null
+      });
 
       // Validate the data
       const validatedData = insertStorySchema.parse(storyData);
