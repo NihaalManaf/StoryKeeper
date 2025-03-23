@@ -6,6 +6,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { AlertCircle, Book, ChevronLeft, ChevronRight } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import ChatPanel from "@/components/ChatPanel";
+import ContactModal from "@/components/ContactModal";
 
 interface Story {
   id: number;
@@ -24,6 +25,7 @@ export default function StoryPreview() {
   const [, navigate] = useLocation();
   const { toast } = useToast();
   const [currentPage, setCurrentPage] = useState(0);
+  const [contactModalOpen, setContactModalOpen] = useState(false);
   
   const { data: story, isLoading, error } = useQuery<Story>({
     queryKey: [`/api/stories/${id}`],
@@ -94,6 +96,10 @@ export default function StoryPreview() {
   
   const handlePurchase = () => {
     navigate(`/checkout/${id}`);
+  };
+  
+  const handleGeneratePreview = () => {
+    setContactModalOpen(true);
   };
   
   return (
@@ -202,16 +208,31 @@ export default function StoryPreview() {
               <p className="text-gray-600 mb-6 max-w-2xl mx-auto">
                 This is a preview of your first 2 pages. Purchase your complete book to see the full story beautifully illustrated with your characters!
               </p>
-              <Button 
-                onClick={handlePurchase}
-                className="bg-[#FF6B6B] text-white font-bold py-4 px-8 rounded-[12px] shadow-lg hover:shadow-xl transition duration-300 h-auto"
-              >
-                Purchase Complete Book
-              </Button>
+              <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                <Button 
+                  onClick={handleGeneratePreview}
+                  className="bg-[#4ECDC4] text-white font-bold py-4 px-8 rounded-[12px] shadow-lg hover:shadow-xl transition duration-300 h-auto"
+                >
+                  Generate Full Preview
+                </Button>
+                <Button 
+                  onClick={handlePurchase}
+                  className="bg-[#FF6B6B] text-white font-bold py-4 px-8 rounded-[12px] shadow-lg hover:shadow-xl transition duration-300 h-auto"
+                >
+                  Purchase Complete Book
+                </Button>
+              </div>
             </>
           )}
         </div>
       </div>
+      
+      {/* Contact Modal */}
+      <ContactModal 
+        isOpen={contactModalOpen} 
+        onClose={() => setContactModalOpen(false)}
+        storyId={parseInt(id)}
+      />
     </div>
   );
 }

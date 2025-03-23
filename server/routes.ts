@@ -2,7 +2,7 @@ import type { Express, Request, Response } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
 import { z } from "zod";
-import { insertStorySchema, insertChatMessageSchema } from "@shared/schema";
+import { insertStorySchema, insertChatMessageSchema, insertContactSubmissionSchema } from "@shared/schema";
 import multer from "multer";
 import path from "path";
 import fs from "fs";
@@ -184,6 +184,57 @@ export async function registerRoutes(app: Express): Promise<Server> {
         console.error("Error creating message:", error);
         res.status(500).json({ message: "Failed to create message" });
       }
+    }
+  });
+
+  // Create a new contact submission
+  app.post("/api/contact", async (req, res) => {
+    try {
+      const contactData = {
+        name: req.body.name,
+        email: req.body.email,
+        phone: req.body.phone,
+        message: req.body.message,
+        storyId: req.body.storyId ? parseInt(req.body.storyId) : null
+      };
+      
+      console.log("Contact submission received:", {
+        ...contactData,
+        email: contactData.email ? "..." : null // Don't log full email for privacy
+      });
+      
+      // Validate the data
+      const validatedData = insertContactSubmissionSchema.parse(contactData);
+      
+      // Save the contact submission
+      const submission = await storage.createContactSubmission(validatedData);
+      
+      res.status(201).json({ 
+        success: true, 
+        message: "Contact information submitted successfully",
+        id: submission.id
+      });
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        res.status(400).json({ 
+          message: "Invalid contact data", 
+          errors: error.errors 
+        });
+      } else {
+        console.error("Error creating contact submission:", error);
+        res.status(500).json({ message: "Failed to submit contact information" });
+      }
+    }
+  });
+
+  // Get all contact submissions (admin only route in a real app)
+  app.get("/api/contact", async (req, res) => {
+    try {
+      const submissions = await storage.getContactSubmissions();
+      res.json(submissions);
+    } catch (error) {
+      console.error("Error fetching contact submissions:", error);
+      res.status(500).json({ message: "Failed to fetch contact submissions" });
     }
   });
 
