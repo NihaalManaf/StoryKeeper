@@ -9,16 +9,16 @@ export default function HeroSection() {
       <div className="max-w-7xl mx-auto">
         <div className="lg:flex items-center">
           <div className="lg:w-1/2 lg:pr-12 mb-10 lg:mb-0 z-10">
-            <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight font-['Quicksand'] mb-6">
-              Turn Your Family Stories Into
-              <span className="text-[#FF6B6B]"> Magical </span>
-              Children's Books
+            <h2 className="text-4xl md:text-4xl lg:text-6xl font-bold leading-tight font-['Quicksand'] mb-6">
+              Your
+              <span className="text-[#FF6B6B]"> Memories. </span>
+              Their Favorite Bedtime Story.
             </h2>
-            <p className="text-lg mb-8 font-['Open_Sans']">
-              Preserve your family's precious memories as beautifully
-              illustrated children's books that will be treasured for
-              generations. Personalize characters your characers with images
-              too!
+            <p className="text-base mb-8 font-['Open_Sans']">
+              From bedtime tales to unforgettable adventures, we bring your
+              real-life moments to life as beautifully illustrated children’s
+              books. Each story is crafted with love, printed with care, and
+              delivered to your home. Just tell us your story!
             </p>
             <div className="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
               <a href="#create-story">
