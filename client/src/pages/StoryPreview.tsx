@@ -22,10 +22,26 @@ interface Story {
 
 export default function StoryPreview() {
   const { id } = useParams<{ id: string }>();
-  const [, navigate] = useLocation();
+  const [location, navigate] = useLocation();
   const { toast } = useToast();
   const [currentPage, setCurrentPage] = useState(0);
   const [contactModalOpen, setContactModalOpen] = useState(false);
+  const [isFromAdmin, setIsFromAdmin] = useState(false);
+  
+  // Check if user navigated from admin page
+  useEffect(() => {
+    // We can use document.referrer, sessionStorage, or just provide a way to pass this info
+    // For simplicity, we'll check if the user got here by clicking our admin preview button
+    const referrer = document.referrer;
+    const fromAdminPage = referrer.includes('/admin/contact-submissions') || 
+                          sessionStorage.getItem('fromAdmin') === 'true';
+    
+    if (fromAdminPage) {
+      setIsFromAdmin(true);
+      // Store this in session storage in case of page refresh
+      sessionStorage.setItem('fromAdmin', 'true');
+    }
+  }, []);
   
   const { data: story, isLoading, error } = useQuery<Story>({
     queryKey: [`/api/stories/${id}`],
@@ -105,9 +121,37 @@ export default function StoryPreview() {
   return (
     <div className="min-h-screen pt-32 pb-20 px-4 bg-gradient-to-b from-white to-gray-50">
       <div className="max-w-6xl mx-auto">
-        <div className="text-center mb-8">
-          <h2 className="text-3xl md:text-4xl font-['Quicksand'] font-bold mb-2">{story.title}</h2>
-          <p className="text-gray-600">Preview your personalized storybook (2 pages of {story.purchased ? 'your complete book' : 'preview'})</p>
+        <div className="flex items-center justify-between mb-8">
+          {isFromAdmin ? (
+            <Button 
+              onClick={() => {
+                navigate('/admin/contact-submissions');
+                // Clear the from admin flag when navigating away
+                sessionStorage.removeItem('fromAdmin');
+              }} 
+              variant="outline" 
+              className="flex items-center gap-2"
+            >
+              <ChevronLeft className="h-4 w-4" />
+              Back to Submissions
+            </Button>
+          ) : (
+            <Button 
+              onClick={() => navigate('/')} 
+              variant="outline" 
+              className="flex items-center gap-2"
+            >
+              <ChevronLeft className="h-4 w-4" />
+              Back to Home
+            </Button>
+          )}
+          
+          <div className="text-center">
+            <h2 className="text-3xl md:text-4xl font-['Quicksand'] font-bold mb-2">{story.title}</h2>
+            <p className="text-gray-600">Preview your personalized storybook (2 pages of {story.purchased ? 'your complete book' : 'preview'})</p>
+          </div>
+          
+          <div className="w-[120px]"></div> {/* Spacer div for alignment */}
         </div>
         
         <div className="flex justify-center mb-8">
