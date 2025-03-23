@@ -2,7 +2,7 @@ import type { Express, Request, Response } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
 import { z } from "zod";
-import { insertStorySchema } from "@shared/schema";
+import { insertStorySchema, insertChatMessageSchema } from "@shared/schema";
 import multer from "multer";
 import path from "path";
 import fs from "fs";
@@ -127,6 +127,63 @@ export async function registerRoutes(app: Express): Promise<Server> {
     } catch (error) {
       console.error("Error purchasing story:", error);
       res.status(500).json({ message: "Failed to process purchase" });
+    }
+  });
+
+  // Get chat messages for a specific story
+  app.get("/api/stories/:id/chat", async (req, res) => {
+    try {
+      const storyId = parseInt(req.params.id);
+      const story = await storage.getStory(storyId);
+      
+      if (!story) {
+        return res.status(404).json({ message: "Story not found" });
+      }
+      
+      const messages = await storage.getChatMessagesByStoryId(storyId);
+      res.json(messages);
+    } catch (error) {
+      console.error("Error fetching chat messages:", error);
+      res.status(500).json({ message: "Failed to fetch chat messages" });
+    }
+  });
+
+  // Add a new chat message to a story
+  app.post("/api/stories/:id/chat", async (req, res) => {
+    try {
+      const storyId = parseInt(req.params.id);
+      const story = await storage.getStory(storyId);
+      
+      if (!story) {
+        return res.status(404).json({ message: "Story not found" });
+      }
+      
+      // For this demo we'll use userId 1 as we don't have authentication
+      const userId = 1;
+      
+      const messageData = {
+        storyId,
+        userId,
+        isEditor: req.body.isEditor || false,
+        message: req.body.message
+      };
+      
+      // Validate the data
+      const validatedData = insertChatMessageSchema.parse(messageData);
+      
+      // Save the message
+      const message = await storage.createChatMessage(validatedData);
+      res.status(201).json(message);
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        res.status(400).json({ 
+          message: "Invalid message data", 
+          errors: error.errors 
+        });
+      } else {
+        console.error("Error creating message:", error);
+        res.status(500).json({ message: "Failed to create message" });
+      }
     }
   });
 

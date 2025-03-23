@@ -1,6 +1,7 @@
 import { 
   users, type User, type InsertUser,
-  stories, type Story, type InsertStory 
+  stories, type Story, type InsertStory,
+  chatMessages, type ChatMessage, type InsertChatMessage
 } from "@shared/schema";
 
 export interface IStorage {
@@ -13,19 +14,26 @@ export interface IStorage {
   createStory(story: InsertStory): Promise<Story>;
   updateStoryPreviewStatus(id: number, previewGenerated: boolean): Promise<Story | undefined>;
   updateStoryPurchaseStatus(id: number, purchased: boolean): Promise<Story | undefined>;
+  
+  getChatMessagesByStoryId(storyId: number): Promise<ChatMessage[]>;
+  createChatMessage(message: InsertChatMessage): Promise<ChatMessage>;
 }
 
 export class MemStorage implements IStorage {
   private users: Map<number, User>;
   private stories: Map<number, Story>;
+  private chatMessages: Map<number, ChatMessage>;
   currentUserId: number;
   currentStoryId: number;
+  currentChatMessageId: number;
 
   constructor() {
     this.users = new Map();
     this.stories = new Map();
+    this.chatMessages = new Map();
     this.currentUserId = 1;
     this.currentStoryId = 1;
+    this.currentChatMessageId = 1;
   }
 
   async getUser(id: number): Promise<User | undefined> {
@@ -90,6 +98,30 @@ export class MemStorage implements IStorage {
     const updatedStory = { ...story, purchased };
     this.stories.set(id, updatedStory);
     return updatedStory;
+  }
+  
+  async getChatMessagesByStoryId(storyId: number): Promise<ChatMessage[]> {
+    return Array.from(this.chatMessages.values())
+      .filter((message) => message.storyId === storyId)
+      .sort((a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime());
+  }
+  
+  async createChatMessage(insertMessage: InsertChatMessage): Promise<ChatMessage> {
+    const id = this.currentChatMessageId++;
+    const createdAt = new Date().toISOString();
+    
+    // Ensure isEditor is properly handled
+    const isEditor = insertMessage.isEditor === undefined ? false : insertMessage.isEditor;
+    
+    const message: ChatMessage = {
+      ...insertMessage,
+      isEditor,
+      id,
+      createdAt
+    };
+    
+    this.chatMessages.set(id, message);
+    return message;
   }
 }
 
