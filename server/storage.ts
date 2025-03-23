@@ -1,7 +1,8 @@
 import { 
   users, type User, type InsertUser,
   stories, type Story, type InsertStory,
-  chatMessages, type ChatMessage, type InsertChatMessage
+  chatMessages, type ChatMessage, type InsertChatMessage,
+  contactSubmissions, type ContactSubmission, type InsertContactSubmission
 } from "@shared/schema";
 
 export interface IStorage {
@@ -17,23 +18,31 @@ export interface IStorage {
   
   getChatMessagesByStoryId(storyId: number): Promise<ChatMessage[]>;
   createChatMessage(message: InsertChatMessage): Promise<ChatMessage>;
+  
+  getContactSubmission(id: number): Promise<ContactSubmission | undefined>;
+  getContactSubmissions(): Promise<ContactSubmission[]>;
+  createContactSubmission(submission: InsertContactSubmission): Promise<ContactSubmission>;
 }
 
 export class MemStorage implements IStorage {
   private users: Map<number, User>;
   private stories: Map<number, Story>;
   private chatMessages: Map<number, ChatMessage>;
+  private contactSubmissions: Map<number, ContactSubmission>;
   currentUserId: number;
   currentStoryId: number;
   currentChatMessageId: number;
+  currentContactSubmissionId: number;
 
   constructor() {
     this.users = new Map();
     this.stories = new Map();
     this.chatMessages = new Map();
+    this.contactSubmissions = new Map();
     this.currentUserId = 1;
     this.currentStoryId = 1;
     this.currentChatMessageId = 1;
+    this.currentContactSubmissionId = 1;
   }
 
   async getUser(id: number): Promise<User | undefined> {
@@ -70,8 +79,8 @@ export class MemStorage implements IStorage {
     // Ensure characterPhotos is properly handled as string[] | null
     const characterPhotos = insertStory.characterPhotos 
       ? Array.isArray(insertStory.characterPhotos) 
-        ? insertStory.characterPhotos 
-        : Array.from(insertStory.characterPhotos)
+        ? insertStory.characterPhotos as string[]
+        : Array.from(insertStory.characterPhotos) as string[]
       : null;
     
     const story: Story = { 
@@ -126,6 +135,33 @@ export class MemStorage implements IStorage {
     
     this.chatMessages.set(id, message);
     return message;
+  }
+  
+  async getContactSubmission(id: number): Promise<ContactSubmission | undefined> {
+    return this.contactSubmissions.get(id);
+  }
+  
+  async getContactSubmissions(): Promise<ContactSubmission[]> {
+    return Array.from(this.contactSubmissions.values())
+      .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+  }
+  
+  async createContactSubmission(insertSubmission: InsertContactSubmission): Promise<ContactSubmission> {
+    const id = this.currentContactSubmissionId++;
+    const createdAt = new Date().toISOString();
+    
+    const submission: ContactSubmission = {
+      id,
+      name: insertSubmission.name || null,
+      email: insertSubmission.email || null,
+      phone: insertSubmission.phone || null,
+      message: insertSubmission.message || null,
+      storyId: insertSubmission.storyId || null,
+      createdAt
+    };
+    
+    this.contactSubmissions.set(id, submission);
+    return submission;
   }
 }
 

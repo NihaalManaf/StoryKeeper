@@ -29,6 +29,16 @@ export const chatMessages = pgTable("chat_messages", {
   createdAt: text("created_at").notNull(),
 });
 
+export const contactSubmissions = pgTable("contact_submissions", {
+  id: serial("id").primaryKey(),
+  name: text("name"),
+  email: text("email"),
+  phone: text("phone"),
+  message: text("message"),
+  storyId: integer("story_id"),
+  createdAt: text("created_at").notNull(),
+});
+
 export const insertUserSchema = createInsertSchema(users).pick({
   username: true,
   password: true,
@@ -49,6 +59,14 @@ export const insertChatMessageSchema = createInsertSchema(chatMessages).pick({
   message: true,
 });
 
+export const insertContactSubmissionSchema = createInsertSchema(contactSubmissions).pick({
+  name: true,
+  email: true,
+  phone: true,
+  message: true,
+  storyId: true,
+});
+
 export type InsertUser = z.infer<typeof insertUserSchema>;
 export type User = typeof users.$inferSelect;
 
@@ -57,3 +75,6 @@ export type Story = typeof stories.$inferSelect;
 
 export type InsertChatMessage = z.infer<typeof insertChatMessageSchema>;
 export type ChatMessage = typeof chatMessages.$inferSelect;
+
+export type InsertContactSubmission = z.infer<typeof insertContactSubmissionSchema>;
+export type ContactSubmission = typeof contactSubmissions.$inferSelect;
