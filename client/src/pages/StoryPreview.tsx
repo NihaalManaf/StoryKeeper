@@ -113,40 +113,38 @@ export default function StoryPreview() {
         {/* Two-column layout for book preview and chat */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mx-auto">
           {/* Book preview column - takes 2/3 of available space on large screens */}
-          <div className="lg:col-span-2">
-            <div className="relative bg-white rounded-[12px] shadow-xl overflow-hidden">
+          <div className="lg:col-span-2 flex flex-col">
+            <div className="relative bg-white rounded-[12px] shadow-xl overflow-hidden flex-grow" style={{ minHeight: "450px" }}>
               {/* Book viewer */}
-              <div className="aspect-[2/1] bg-gray-100 relative">
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <svg className="w-full h-full" viewBox="0 0 800 400" xmlns="http://www.w3.org/2000/svg">
-                    <rect width="100%" height="100%" fill="#ffffff" />
-                    <g transform="translate(400, 200)">
-                      <rect x="-320" y="-180" width="640" height="360" rx="8" fill="#f8f9fa" stroke="#e9ecef" />
-                      <text 
-                        x="0" 
-                        y="0" 
-                        dominantBaseline="middle" 
-                        textAnchor="middle" 
-                        fontFamily="Quicksand" 
-                        fontSize="24" 
-                        fill="#2D3436"
-                      >
-                        {currentPage === 0 ? story.title : `Page ${currentPage}`}
-                      </text>
-                      <text 
-                        x="0" 
-                        y="40" 
-                        dominantBaseline="middle" 
-                        textAnchor="middle" 
-                        fontFamily="Open Sans" 
-                        fontSize="16" 
-                        fill="#495057"
-                      >
-                        {previewPages[currentPage].text}
-                      </text>
-                    </g>
-                  </svg>
-                </div>
+              <div className="h-full bg-gray-100 relative flex items-center justify-center">
+                <svg className="w-full" viewBox="0 0 800 400" xmlns="http://www.w3.org/2000/svg">
+                  <rect width="100%" height="100%" fill="#ffffff" />
+                  <g transform="translate(400, 200)">
+                    <rect x="-320" y="-180" width="640" height="360" rx="8" fill="#f8f9fa" stroke="#e9ecef" />
+                    <text 
+                      x="0" 
+                      y="0" 
+                      dominantBaseline="middle" 
+                      textAnchor="middle" 
+                      fontFamily="Quicksand" 
+                      fontSize="24" 
+                      fill="#2D3436"
+                    >
+                      {currentPage === 0 ? story.title : `Page ${currentPage}`}
+                    </text>
+                    <text 
+                      x="0" 
+                      y="40" 
+                      dominantBaseline="middle" 
+                      textAnchor="middle" 
+                      fontFamily="Open Sans" 
+                      fontSize="16" 
+                      fill="#495057"
+                    >
+                      {previewPages[currentPage].text}
+                    </text>
+                  </g>
+                </svg>
               </div>
               
               {/* Navigation controls */}
@@ -184,33 +182,34 @@ export default function StoryPreview() {
                 ))}
               </div>
             </div>
-            
-            <div className="mt-8 text-center">
-              {story.purchased ? (
-                <div className="p-4 bg-green-100 text-green-800 rounded-[12px] inline-flex items-center gap-2 mb-4">
-                  <Book className="h-5 w-5" />
-                  <span>You've purchased this book! Your complete story is available.</span>
-                </div>
-              ) : (
-                <>
-                  <p className="text-gray-600 mb-6 max-w-2xl mx-auto">
-                    This is a preview of your first 2 pages. Purchase your complete book to see the full story beautifully illustrated with your characters!
-                  </p>
-                  <Button 
-                    onClick={handlePurchase}
-                    className="bg-[#FF6B6B] text-white font-bold py-4 px-8 rounded-[12px] shadow-lg hover:shadow-xl transition duration-300 h-auto"
-                  >
-                    Purchase Complete Book
-                  </Button>
-                </>
-              )}
-            </div>
           </div>
 
           {/* Chat panel column - takes 1/3 of available space on large screens */}
-          <div className="lg:col-span-1 h-[600px]">
+          <div className="lg:col-span-1 flex flex-col" style={{ minHeight: "450px" }}>
             {story && <ChatPanel storyId={story.id} />}
           </div>
+        </div>
+        
+        {/* Purchase section - centered under both columns */}
+        <div className="mt-8 text-center">
+          {story.purchased ? (
+            <div className="p-4 bg-green-100 text-green-800 rounded-[12px] inline-flex items-center gap-2 mb-4">
+              <Book className="h-5 w-5" />
+              <span>You've purchased this book! Your complete story is available.</span>
+            </div>
+          ) : (
+            <>
+              <p className="text-gray-600 mb-6 max-w-2xl mx-auto">
+                This is a preview of your first 2 pages. Purchase your complete book to see the full story beautifully illustrated with your characters!
+              </p>
+              <Button 
+                onClick={handlePurchase}
+                className="bg-[#FF6B6B] text-white font-bold py-4 px-8 rounded-[12px] shadow-lg hover:shadow-xl transition duration-300 h-auto"
+              >
+                Purchase Complete Book
+              </Button>
+            </>
+          )}
         </div>
       </div>
     </div>
