@@ -268,10 +268,13 @@ export default function CreateStory() {
         onClose={() => setContactModalOpen(false)}
         storyId={newStoryId as number}
         onComplete={() => {
-          // After contact form is submitted, navigate to the preview page
-          if (newStoryId) {
-            navigate(`/preview/${newStoryId}`);
-          }
+          // Just reset the form and close the modal
+          form.reset();
+          setContactModalOpen(false);
+          toast({
+            title: "Thank you!",
+            description: "Your story has been created successfully.",
+          });
         }}
       />
     </section>
