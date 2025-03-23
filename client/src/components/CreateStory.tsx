@@ -6,6 +6,7 @@ import { apiRequest } from "@/lib/queryClient";
 import { useMutation } from "@tanstack/react-query";
 import { useToast } from "@/hooks/use-toast";
 import { useLocation } from "wouter";
+import ContactModal from "./ContactModal";
 
 import {
   Form,
@@ -45,6 +46,8 @@ type StoryFormValues = z.infer<typeof storyFormSchema>;
 
 export default function CreateStory() {
   const [characterPhotos, setCharacterPhotos] = useState<File[]>([]);
+  const [contactModalOpen, setContactModalOpen] = useState(false);
+  const [newStoryId, setNewStoryId] = useState<number | null>(null);
   const { toast } = useToast();
   const [, navigate] = useLocation();
   
@@ -67,10 +70,13 @@ export default function CreateStory() {
     },
     onSuccess: (data) => {
       toast({
-        title: "Preview Generated!",
-        description: "Your story preview has been created.",
+        title: "Story Created!",
+        description: "Your story has been saved. Let's collect your contact information.",
       });
-      navigate(`/preview/${data.id}`);
+      
+      // Store the new story ID and open the contact modal
+      setNewStoryId(data.id);
+      setContactModalOpen(true);
     },
     onError: (error) => {
       toast({
@@ -255,6 +261,19 @@ export default function CreateStory() {
           </Form>
         </div>
       </div>
+      
+      {/* Contact Modal */}
+      <ContactModal
+        isOpen={contactModalOpen}
+        onClose={() => setContactModalOpen(false)}
+        storyId={newStoryId as number}
+        onComplete={() => {
+          // After contact form is submitted, navigate to the preview page
+          if (newStoryId) {
+            navigate(`/preview/${newStoryId}`);
+          }
+        }}
+      />
     </section>
   );
 }

@@ -208,20 +208,17 @@ export default function StoryPreview() {
               <p className="text-gray-600 mb-6 max-w-2xl mx-auto">
                 This is a preview of your first 2 pages. Purchase your complete book to see the full story beautifully illustrated with your characters!
               </p>
-              <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <div className="flex justify-center">
                 <Button 
                   onClick={handleGeneratePreview}
                   className="bg-[#4ECDC4] text-white font-bold py-4 px-8 rounded-[12px] shadow-lg hover:shadow-xl transition duration-300 h-auto"
                 >
                   Generate Full Preview
                 </Button>
-                <Button 
-                  onClick={handlePurchase}
-                  className="bg-[#FF6B6B] text-white font-bold py-4 px-8 rounded-[12px] shadow-lg hover:shadow-xl transition duration-300 h-auto"
-                >
-                  Purchase Complete Book
-                </Button>
               </div>
+              <p className="text-sm text-gray-500 mt-4">
+                Note: We're currently in the testing phase. Purchase functionality will be available soon.
+              </p>
             </>
           )}
         </div>
