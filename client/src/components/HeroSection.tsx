@@ -40,7 +40,7 @@ export default function HeroSection() {
             {/* Main hero image */}
             <div className="relative z-10 rounded-[12px] overflow-hidden shadow-2xl animate-[float_6s_ease-in-out_infinite]">
               <img
-                src="https://cdn.discordapp.com/attachments/849286462315036732/1353300524753227787/young-asian-mother-sitting-couch-home-reading-story-to-two-little-children-asian-mother-reading-story-to-two-children-106137934.png?ex=67e126d4&is=67dfd554&hm=454bc6a262da13957a32e537e8a07a1953e6ee763be630a97cee7b338d841a4b&"
+                src="https://drive.google.com/file/d/1w6am1ori40WLJ1Ga9XYuzUOT86IiMLlJ/view?usp=sharing"
                 alt="Mother reading with her children"
                 className="w-full h-auto rounded-[12px]"
               />
