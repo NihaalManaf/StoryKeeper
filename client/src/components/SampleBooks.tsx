@@ -10,7 +10,7 @@ const sampleBooks = [
     authorName: "Sarah J.",
     authorComment: "My kids ask for this story every night!",
     image:
-      "https://cdn.discordapp.com/attachments/849286462315036732/1353304109897224242/ddd8a73c-b838-47b6-9f74-d57d47e52212.jpeg?ex=67e12a2a&is=67dfd8aa&hm=eec2f201f98ac79dabf9310b6c79c32e7c2c11663cccdbf343e912eb1c4b3065&",
+    "https://cdn.discordapp.com/attachments/849286462315036732/1353304109897224242/ddd8a73c-b838-47b6-9f74-d57d47e52212.jpeg?ex=67e3cd2a&is=67e27baa&hm=167efc94bd2413eb09a1e0a57513efbd797efd3b5c6e01420c3c2f7d81741832&"
   },
   {
     id: 2,
@@ -21,7 +21,7 @@ const sampleBooks = [
     authorName: "Michael T.",
     authorComment: "The personalized illustrations are amazing!",
     image:
-      "https://cdn.discordapp.com/attachments/849286462315036732/1353305471653773403/output.jpg?ex=67e12b6f&is=67dfd9ef&hm=f1e6261c7d0c3c1b3ed775af6cd0b5d8a692c7ebd29a734f25f0718ea2670a2a&",
+    "https://cdn.discordapp.com/attachments/849286462315036732/1353305471653773403/output.jpg?ex=67e3ce6f&is=67e27cef&hm=2d32e8d4cac5c3787446719b11195d9526d4584d71d8d9fe796261dccab7f2b8&"
   },
   {
     id: 3,
@@ -32,7 +32,7 @@ const sampleBooks = [
     authorName: "Jessica K.",
     authorComment: "My daughter squealed when she saw herself as a mermaid!",
     image:
-      "https://cdn.discordapp.com/attachments/849286462315036732/1353305747303305328/output_1.jpg?ex=67e12bb1&is=67dfda31&hm=71009f69ccad9d1c027461569737a6390f605ab57e89bb2e1237d0566e22fc48&",
+    "https://cdn.discordapp.com/attachments/849286462315036732/1353305747303305328/output_1.jpg?ex=67e3ceb1&is=67e27d31&hm=ccba4e413caaee56e45cc3bdaaecd481696e4284635a099ea6b5b04aca435808&"
   },
 ];
 
